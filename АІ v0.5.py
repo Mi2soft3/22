@@ -3,7 +3,7 @@ import requests
 import sys
 import re
 from bs4 import BeautifulSoup
-from deep_translator import GoogleTranslator
+from translate import Translator  # Заміна бібліотеки перекладу
 
 class CoreAI:
     def __init__(self):
@@ -15,8 +15,8 @@ class CoreAI:
     # Переклад тексту на українську
     def translate_to_ukrainian(self, text):
         try:
-            translated_text = GoogleTranslator(source='auto', target='uk').translate(text)
-            return translated_text
+            translator = Translator(to_lang="uk")
+            return translator.translate(text)
         except Exception as e:
             return f"Помилка перекладу: {e}"
 
@@ -46,7 +46,7 @@ class CoreAI:
     # Пошук в інтернеті
     def search_internet(self, query):
         try:
-            translated_query = GoogleTranslator(source='auto', target='en').translate(query)
+            translated_query = Translator(to_lang="en").translate(query)
             headers = {'User-Agent': 'Mozilla/5.0'}
             response = requests.get(f"https://www.google.com/search?q={translated_query}", headers=headers)
             if response.status_code == 200:
